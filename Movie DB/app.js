@@ -53,11 +53,12 @@ boton.addEventListener("click", function () {
   //console.log("Prueba");
 });
 
-function buscarPelicula(e) {
-  //e.preventDefault();
+function buscarPelicula() {
   const pelicula = document.querySelector("#pelicula").value;
-  //console.log(pelicula);
-  consultarApi(pelicula);
+  // if (pelicula.length != 0) {
+  //   consultarApi(pelicula);
+  // }
+  pelicula.length != 0 ? consultarApi(pelicula) : alert("Ingresa una pelicula");
 }
 
 async function consultarApi(pelicula) {
@@ -71,6 +72,7 @@ async function consultarApi(pelicula) {
     //console.log(respuesta);
   } catch (error) {
     console.log(error);
+    //alert("Ingresa una pelicula");
   }
 }
 
