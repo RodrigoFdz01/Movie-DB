@@ -1,46 +1,33 @@
-//document.addEventListener("DOMContentLoaded", cargarPeliculas);
-const boton = document.getElementById("#boton");
-const pelicula = document.querySelector("pelicula").value;
-
-boton.addEventListener("click", function () {
-  buscarPelicula();
-  pintarPelicula();
-});
-
-function buscarPelicula(e) {
-  e.preventDefault();
-  consultarApi("pelicula");
-}
+document.addEventListener("DOMContentLoaded", cargarPeliculasPopulares);
 
 //https://api.themoviedb.org/3/trending/movie/week?api_key=79f0e639de5e3a1e7b6bb5f9122307c0
 
-//const modal = new bootstrap.Modal("#modal", {});
+async function cargarPeliculasPopulares() {
+  const url = `https://api.themoviedb.org/3/movie/popular?api_key=79f0e639de5e3a1e7b6bb5f9122307c0&language=en-En`;
 
-async function cargarPeliculas() {
-  const url = `https://api.themoviedb.org/3/movie/popular?api_key=79f0e639de5e3a1e7b6bb5f9122307c0&language=es-ES`;
   try {
     const respuesta = await fetch(url);
     const resultado = await respuesta.json();
-    pintarPeliculas(resultado.results);
+    pintarPeliculasPopulares(resultado.results);
   } catch (error) {
     console.log(error);
   }
 }
-//cargarPeliculas();
+//cargarPeliculasPopulares();
 
-const pintarPeliculas = (pelicula) => {
+const pintarPeliculasPopulares = (pelicula) => {
   pelicula.forEach((pel) => {
     const contenedor = document.querySelector(".container2");
     const { title, backdrop_path } = pel;
-    const urlImagen = `https://image.tmdb.org/t/p/w500/${backdrop_path}`;
+    const urlImagen = `https://image.tmdb.org/t/p/w300/${backdrop_path}`;
     //console.log(title);
     const peliculaTitulo = document.createElement("h4");
     peliculaTitulo.innerHTML = `<uli>${title}</uli>`;
     contenedor.appendChild(peliculaTitulo);
 
-    const personajeImagen = document.createElement("img");
-    personajeImagen.src = urlImagen;
-    contenedor.appendChild(personajeImagen);
+    const movieImagen = document.createElement("img");
+    movieImagen.src = urlImagen;
+    contenedor.appendChild(movieImagen);
   });
 };
 
@@ -55,11 +42,50 @@ const pintarPeliculas = (pelicula) => {
 //   }
 // }
 
-const pintarPelicula = (pelicula) => {
-  const { backdrop_path, title, release_date } = pelicula;
-  //console.log(title);
+/* ########## Busquedas  ##########  */
 
-  const urlImagen = `https://image.tmdb.org/t/p/w500/${backdrop_path}`;
+const boton = document.querySelector("#boton");
+const pelicula = document.querySelector("#pelicula").value;
+
+boton.addEventListener("click", function () {
+  //peliculaIngresada();
+  buscarPelicula();
+  //console.log("Prueba");
+});
+
+function buscarPelicula(e) {
+  //e.preventDefault();
+  const pelicula = document.querySelector("#pelicula").value;
+  //console.log(pelicula);
+  consultarApi(pelicula);
+}
+
+async function consultarApi(pelicula) {
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=79f0e639de5e3a1e7b6bb5f9122307c0&language=es-ES&query=${pelicula}&page=1&include_adult=false`;
+  try {
+    const respuesta = await fetch(url);
+
+    const resultado = await respuesta.json();
+    console.log(resultado.results[0].title);
+    peliculaIngresada(resultado.results[0]);
+    //console.log(respuesta);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const peliculaIngresada = (pelicula) => {
+  const { backdrop_path, title, release_date } = pelicula;
+
+  const contenedor = document.querySelector(".container2");
+
+  const urlImagen = `https://image.tmdb.org/t/p/w300/${backdrop_path}`;
+  const peliculaTitulo = document.createElement("h2");
+  peliculaTitulo.innerHTML = `<uli>${title}</uli>`;
+  contenedor.appendChild(peliculaTitulo);
+  const movieImagen = document.createElement("img");
+  movieImagen.src = urlImagen;
+  contenedor.appendChild(movieImagen);
   result.innerHTML = `
     <div class="movie">
     <img src = "${urlImagen}" class="img-fluid mx-5" alt = "movie poster">
