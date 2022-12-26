@@ -1,0 +1,8 @@
+.container2 {
+  display: grid;
+
+  gap: 4rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  padding: 3% 3% 0% 3%;
+  justify-content: center;
+}
