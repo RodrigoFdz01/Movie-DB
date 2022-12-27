@@ -40,17 +40,20 @@ const pintarPeliculasPopulares = (pelicula) => {
 
 const boton = document.querySelector("#boton");
 const pelicula = document.querySelector("#pelicula").value;
+const contenedor2 = document.querySelector(".container2");
+const contenedor3 = document.querySelector(".container3");
 
 boton.addEventListener("click", function () {
   //peliculaIngresada();
   buscarPelicula();
-  //console.log("Prueba");
+  contenedor.classList.add("removeGrid");
+  contenedor2.classList.add("removeGrid");
 });
 
 function buscarPelicula() {
   const pelicula = document.querySelector("#pelicula").value;
   pelicula.length != 0 ? consultarApi(pelicula) : alert("Ingresa una pelicula");
-  document.addEventListener("DOMContentLoaded", init(), false);
+  // document.addEventListener("DOMContentLoaded", init(), false);
 }
 
 async function consultarApi(pelicula) {
@@ -68,22 +71,27 @@ async function consultarApi(pelicula) {
   }
 }
 
+//const contenedor3 = document.querySelector(".container3");
 const peliculaIngresada = (pelicula) => {
   const { backdrop_path, title, release_date } = pelicula;
-
-  const contenedor = document.querySelector(".container2");
 
   const urlImagen = `https://image.tmdb.org/t/p/w300/${backdrop_path}`;
 
   const peliculaTitulo = document.createElement("h2");
   peliculaTitulo.innerHTML = `<uli>${title}</uli>`;
-  contenedor.appendChild(peliculaTitulo);
+  //contenedor.appendChild(peliculaTitulo);
 
   const movieImagen = document.createElement("img");
   movieImagen.src = urlImagen;
-  contenedor.appendChild(movieImagen);
+  //contenedor.appendChild(movieImagen);
 
   const releaseDate = document.createElement("h3");
   releaseDate.innerHTML = `<uli>Fecha de lanzamiento: ${release_date}</uli>`;
-  contenedor.appendChild(releaseDate);
+  //contenedor.appendChild(releaseDate);
+
+  const peliculaSearched = document.createElement("div");
+  peliculaSearched.appendChild(peliculaTitulo);
+  peliculaSearched.appendChild(movieImagen);
+  peliculaSearched.appendChild(releaseDate);
+  contenedor3.appendChild(peliculaSearched);
 };
